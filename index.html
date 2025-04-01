@@ -14,10 +14,11 @@
       .details-item span:first-child {
           margin-right: 0.5em; /* Ruimte na emoji */
       }
-      /* Stijl voor uitgeschakelde knop */
-      button:disabled {
-        opacity: 0.5;
-        cursor: not-allowed;
+      /* Zorg dat de iframe goed schaalt en een minimale hoogte heeft */
+      iframe {
+        max-width: 100%;
+        min-height: 550px; /* Pas eventueel aan o.b.v. formulierlengte */
+        border: none; /* Verwijder standaard iframe rand */
       }
     </style>
 </head>
@@ -26,7 +27,8 @@
     <div class="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden">
 
         <video src="https://i.imgur.com/7GKknHO.mp4"
-               autoplay           loop               muted              playsinline        class="w-full h-64 object-cover"
+               autoplay loop muted playsinline
+               class="w-full h-64 object-cover"
                alt="[Geanimeerde video van kinderdisco]">
           Je browser ondersteunt de video tag niet. Hier zou een video van de kinderdisco moeten staan.
         </video>
@@ -52,7 +54,8 @@
                 </div>
                 <div class="flex items-center details-item">
                     <span>📍</span>
-                    <span> <strong>Waar:</strong>
+                    <span>
+                        <strong>Waar:</strong>
                         <a href="https://www.google.com/maps/search/?api=1&query=Wijkgebouw+Schellingwoude+Amsterdam"
                            target="_blank"
                            rel="noopener noreferrer"
@@ -63,78 +66,14 @@
                 </div>
             </div>
 
-            <div class="bg-purple-100 p-4 rounded-lg text-purple-800 border border-purple-200 text-sm mb-6"> 
+            <div class="bg-purple-100 p-4 rounded-lg text-purple-800 border border-purple-200 text-sm mb-6">
                 <p class="font-semibold">🥂 Voor de ouders:</p>
                 <p>Wij proosten graag met jullie in de tuin van het wijkgebouw!</p>
             </div>
 
-            <div class="bg-gray-100 p-4 rounded-lg border border-gray-200 text-sm">
-                <p class="font-semibold mb-2 text-gray-700">Laat je weten of je komt?</p>
-                <div class="flex items-center justify-center space-x-4 mb-2">
-                    <button id="rsvp-yes-btn" class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out">
-                        Ja, ik kom! 👍
-                    </button>
-                    <button id="rsvp-no-btn" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-150 ease-in-out">
-                        Aanmelding ongedaan maken 👎
-                    </button>
-                </div>
-                <p class="text-gray-600">Aantal aanmeldingen : <span id="rsvp-count" class="font-bold">0</span></p>
-            </div>
-            </div> </div> <script>
-        // Elementen ophalen
-        const countDisplay = document.getElementById('rsvp-count');
-        const yesButton = document.getElementById('rsvp-yes-btn');
-        const noButton = document.getElementById('rsvp-no-btn');
-
-        // Initialiseer de teller vanuit localStorage of op 0
-        // localStorage onthoudt de keuze alleen binnen deze browser
-        let count = parseInt(localStorage.getItem('rsvpCount') || '0');
-        let rsvpState = localStorage.getItem('rsvpState') || 'none'; // 'none', 'yes', 'no'
-
-        // Functie om de weergave bij te werken
-        function updateDisplay() {
-            countDisplay.textContent = count;
-            // Knoppen in-/uitschakelen op basis van staat
-            if (rsvpState === 'yes') {
-                yesButton.disabled = true;
-                noButton.disabled = false;
-            } else if (rsvpState === 'no') {
-                 yesButton.disabled = false;
-                 noButton.disabled = true; // Of laat ingeschakeld om te annuleren
-                 // Als de 'no' knop echt alleen 'undo' is:
-                 // noButton.disabled = (count === 0); // Schakel 'no' uit als count 0 is
-            } else { // 'none'
-                 yesButton.disabled = false;
-                 noButton.disabled = true; // Kan niet annuleren als je niet hebt aangemeld
-            }
-        }
-
-        // Event listener voor de 'Ja' knop
-        yesButton.addEventListener('click', () => {
-            if (rsvpState !== 'yes') { // Alleen tellen als niet al 'ja' is gezegd
-                 count++;
-                 rsvpState = 'yes';
-                 localStorage.setItem('rsvpCount', count);
-                 localStorage.setItem('rsvpState', rsvpState);
-                 updateDisplay();
-            }
-        });
-
-        // Event listener voor de 'Nee/Undo' knop
-        noButton.addEventListener('click', () => {
-             if (rsvpState === 'yes') { // Alleen aftellen als 'ja' was gezegd
-                 count--;
-                 if (count < 0) count = 0; // Zorg dat het niet negatief wordt
-                 rsvpState = 'no'; // Of zet terug naar 'none' als je opnieuw wilt kunnen aanmelden
-                 localStorage.setItem('rsvpCount', count);
-                 localStorage.setItem('rsvpState', rsvpState); // Of zet naar 'none'
-                 updateDisplay();
-             }
-        });
-
-        // Initialiseer de weergave bij het laden van de pagina
-        updateDisplay();
-    </script>
-
-</body>
+            <div class="mt-6 border-t pt-6">
+                 <h2 class="text-xl font-semibold text-gray-700 mb-4">Aanmelden</h2>
+                 <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSef7_Hf00tqMVk6_KjoL8T6zUrDvg8O_vmZDuDTrdr5dLw4DA/viewform?embedded=true" width="640" height="537" frameborder="0" marginheight="0" marginwidth="0">Laden…</iframe>
+                 </div>
+            </div> </div> </body>
 </html>
